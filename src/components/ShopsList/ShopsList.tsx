@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { ShopItem } from "../ShopItem/ShopItem";
 import "./ShopsList.css";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useEffect } from "react";
 import { getShopList, getToken } from "../../AppSlice";
-import { ClipLoader } from "react-spinners";
+import { Loader } from "../Loader/Loader";
 
 const override: CSSProperties = {
   display: "block",
@@ -16,27 +16,23 @@ export const ShopsList = () => {
   const shops = useSelector((state: RootState) => state.app.shops);
   const dispatch: AppDispatch = useDispatch();
   const token = useSelector((state: RootState) => state.app.bearerToken);
-  const [loading, setLoading] = useState(true);
-  const [color, setColor] = useState("#D5DDF2");
-
+  const isLoading = useSelector((state: RootState) => state.app.isLoading);
+  console.log(token);
   useEffect(() => {
     dispatch(getToken());
+
     if (token) {
       dispatch(getShopList(token));
     }
   }, [token]);
 
-  const content = shops ? (
-    shops.items.map((shop, i) => <ShopItem shop={shop} key={i} />)
-  ) : (
-    <div className="ShopList__loader">
-      <ClipLoader
-        color={color}
-        loading={loading}
-        cssOverride={override}
-        size={150}
-      />
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return (
+    <div className="ShopList">
+      {shops && shops.items.map((shop, i) => <ShopItem shop={shop} key={i} />)}
     </div>
   );
-  return <div className="ShopList">{content}</div>;
 };

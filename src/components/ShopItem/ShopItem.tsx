@@ -28,7 +28,6 @@ export const ShopItem: FC<Props> = (props) => {
       <div className="ShopItem__details">
         <div className="ShopItem__details_title">{props.shop.name}</div>
         <div className="ShopItem__details_fav">
-          {/*{JSON.stringify(props.shop.isFavorite)}*/}
           {props.shop.isFavorite ? (
             <Icon path={mdiCardsHeart} size="1.2rem" color="#3CA6A6" />
           ) : (
@@ -41,7 +40,7 @@ export const ShopItem: FC<Props> = (props) => {
           onClick={() => navigate("/" + props.shop.id)}
           className="ShopItem__actions_button "
         >
-          See details
+          Einzelheiten
         </button>
       </div>
     </div>

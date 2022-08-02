@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AppDispatch, RootState } from "./store/store";
+import { AppDispatch } from "./store/store";
 import { Dispatch } from "react";
 import { ShopType } from "./types";
 import { toast } from "react-toastify";
@@ -47,12 +47,17 @@ export const appSlice = createSlice({
     setShop: (state: AppState, action: PayloadAction<ShopType>) => {
       state.shop = action.payload;
     },
+    setLoading: (state: AppState, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { setToken, setShopsData, resetShop, setShop } = appSlice.actions;
+export const { setToken, setShopsData, resetShop, setShop, setLoading } =
+  appSlice.actions;
 
 export const getToken = () => async (dispatch: AppDispatch) => {
+  dispatch(setLoading(true));
   const data = {
     client_id: "bewerber",
     client_secret: "hj52Ws4kF",
@@ -68,12 +73,16 @@ export const getToken = () => async (dispatch: AppDispatch) => {
     });
     dispatch(setToken(res.data.access_token));
   } catch {
-    toast.error("Token could not be loaded...");
+    toast.error("Authorization Fehler...");
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 
 export const getShopList =
   (token: string) => async (dispatch: Dispatch<any>) => {
+    dispatch(setLoading(true));
+
     try {
       const res = await axios.get(baseUrlShops, {
         headers: {
@@ -84,13 +93,15 @@ export const getShopList =
       });
       dispatch(setShopsData(res.data));
     } catch {
-      toast.error("Shops could not be loaded...");
+      toast.error("Shops konnten nicht geladen werden...");
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
 export const getShopDetails =
-  (token: string, id: string) =>
-  async (dispatch: Dispatch<any>, getState: () => RootState) => {
+  (token: string, id: string) => async (dispatch: Dispatch<any>) => {
+    dispatch(setLoading(true));
     try {
       const res = await axios.get(baseUrlShops + "/" + id, {
         headers: {
@@ -101,7 +112,8 @@ export const getShopDetails =
       });
       dispatch(setShop(res.data));
     } catch (err) {
-      console.log(err);
-      toast.error("Shop details could not be loaded...");
+      toast.error("Shop Details konnten nicht geladen werden...");
+    } finally {
+      dispatch(setLoading(false));
     }
   };

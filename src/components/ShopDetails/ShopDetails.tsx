@@ -6,33 +6,34 @@ import { getShopDetails, getToken, resetShop } from "../../AppSlice";
 import { truncateText } from "../../utils/truncate";
 import "./ShopDetails.css";
 import IMG_PLACEHOLDER from "../../assets/logo_ph.png";
+import { Loader } from "../Loader/Loader";
 
 export const ShopDetails = () => {
   const { id } = useParams();
   const dispatch: AppDispatch = useDispatch();
   const token = useSelector((state: RootState) => state.app.bearerToken);
   const shop = useSelector((state: RootState) => state.app.shop);
+  const isLoading = useSelector((state: RootState) => state.app.isLoading);
+
   const [isImgBroken, setIsImgBroken] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getToken());
 
-    if (id) {
-      dispatch(getShopDetails(token, id));
-    }
-
     return () => {
       dispatch(resetShop());
     };
-  }, [id]);
+  }, []);
 
-  if (!id) {
-    return <div>Missing Data...</div>;
-  }
+  useEffect(() => {
+    if (id && token) {
+      dispatch(getShopDetails(token, id));
+    }
+  }, [token]);
 
-  if (!shop) {
-    return <div>Shop details are not loaded...</div>;
+  if (isLoading || !id || !shop) {
+    return <Loader />;
   }
 
   const image = isImgBroken ? IMG_PLACEHOLDER : shop.logo;
@@ -41,11 +42,12 @@ export const ShopDetails = () => {
     <div className="Details">
       <div className="Details_image_cont">
         <img
-          alt={shop.name + "_log"}
+          alt={shop.name + "_logo"}
           src={image}
           onError={() => setIsImgBroken(true)}
         />
       </div>
+
       <div className="Details__block Details_desc">
         {truncateText(shop.description)}
       </div>
@@ -53,7 +55,7 @@ export const ShopDetails = () => {
         <div className="Details__block">
           <div className="Details__block_label">Cashback rates:</div>
           {shop.cashbackRates.map((item, i) => (
-            <div>
+            <div key={i}>
               {item.description}: {item.amount}
               {item.type}
             </div>

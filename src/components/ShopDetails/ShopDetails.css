@@ -4,6 +4,7 @@
     align-items: center;
 }
 
+
 .Details__block {
     display: flex;
     flex-direction: column;
@@ -30,6 +31,8 @@
     width: 100%;
     background: white;
     margin-bottom: 2rem;
+    display: grid;
+    place-items: center;
 }
 
 .Details__block_label {

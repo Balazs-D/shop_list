@@ -18,10 +18,3 @@
   }
 }
 
-.ShopList__loader {
-  width: 100vw;
-  height: 80vh;
-  display: grid;
-  place-items: center;
-
-}
