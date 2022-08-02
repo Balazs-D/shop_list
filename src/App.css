@@ -1,5 +1,34 @@
+
 .App {
   text-align: center;
+  background-image: linear-gradient(45deg, #F2E3D5, white);
+  min-height: 100vh;
+  color: #5A6073
+
+}
+
+button {
+  border: 1px solid #818BA6;
+  border-radius: .25rem;
+  padding: .5rem;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background: #818BA6;
+  cursor: pointer;
+  color: white
+
+}
+
+button:hover {
+  background: #012E40;
+  color: white
+;
+}
+
+button:active {
+  cursor: pointer;
+  background: #012E40;
+  color: white
 }
 
 

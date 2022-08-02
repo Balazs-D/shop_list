@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AppDispatch } from "./store/store";
+import { AppDispatch, RootState } from "./store/store";
 import { Dispatch } from "react";
 import { ShopType } from "./types";
 import { toast } from "react-toastify";
 
-const X_API_KEY = "lQeUjTylHDCxqfISyZ05C7m1rov3hEZLYAqO42zs7h1fPBL2RF";
+export const X_API_KEY = "lQeUjTylHDCxqfISyZ05C7m1rov3hEZLYAqO42zs7h1fPBL2RF";
 
 const urlToken = "https://testapi.mehrwerk.de/v2/iam/oauth/token";
 const baseUrlShops = "https://testapi.mehrwerk.de/v3/cashback/shops";
@@ -19,14 +19,16 @@ export type ShopsData = {
 
 export interface AppState {
   isLoading: boolean;
-  bearerToken: string | null;
+  bearerToken: string;
   shops: ShopsData | null;
+  shop: ShopType | null;
 }
 
 const initialState: AppState = {
   isLoading: false,
-  bearerToken: null,
+  bearerToken: "",
   shops: null,
+  shop: null,
 };
 
 export const appSlice = createSlice({
@@ -39,10 +41,16 @@ export const appSlice = createSlice({
     setShopsData: (state: AppState, action: PayloadAction<ShopsData>) => {
       state.shops = action.payload;
     },
+    resetShop: (state: AppState) => {
+      state.shop = null;
+    },
+    setShop: (state: AppState, action: PayloadAction<ShopType>) => {
+      state.shop = action.payload;
+    },
   },
 });
 
-export const { setToken, setShopsData } = appSlice.actions;
+export const { setToken, setShopsData, resetShop, setShop } = appSlice.actions;
 
 export const getToken = () => async (dispatch: AppDispatch) => {
   const data = {
@@ -61,7 +69,7 @@ export const getToken = () => async (dispatch: AppDispatch) => {
     dispatch(setToken(res.data.access_token));
     // console.log(res);
   } catch {
-    toast.error("Token could not be loaded...");
+    toast.error("Token could not be load...");
   }
 };
 
@@ -77,6 +85,25 @@ export const getShopList =
       });
       dispatch(setShopsData(res.data));
     } catch {
-      toast.error("Shops could not be loaded...");
+      toast.error("Shops could not be load...");
+    }
+  };
+
+export const getShopDetails =
+  (token: string, id: string) =>
+  async (dispatch: Dispatch<any>, getState: () => RootState) => {
+    try {
+      const res = await axios.get(baseUrlShops + "/" + id, {
+        headers: {
+          "Content-type": "application/json",
+          "X-API-KEY": X_API_KEY,
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res);
+      dispatch(setShop(res.data));
+    } catch (err) {
+      console.log(err);
+      toast.error("Shop details could not be load...");
     }
   };

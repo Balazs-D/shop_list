@@ -1,21 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
 import { AppDispatch, RootState } from "./store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { getShopList, getToken } from "./AppSlice";
 import { ShopsList } from "./components/ShopsList/ShopsList";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ShopDetails } from "./components/ShopDetails/ShopDetails";
+import "react-toastify/dist/ReactToastify.css";
 
 export const App = () => {
   const dispatch: AppDispatch = useDispatch();
   const token = useSelector((state: RootState) => state.app.bearerToken);
-
-  useEffect(() => {
-    dispatch(getToken());
-    if (token) {
-      dispatch(getShopList(token));
-    }
-  }, [token]);
 
   return (
     <div className="App">
@@ -26,7 +21,13 @@ export const App = () => {
         pauseOnHover
         closeOnClick
       />
-      <ShopsList />
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<ShopsList />} />
+          <Route path="/:id" element={<ShopDetails />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };

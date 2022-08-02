@@ -2,13 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e48f09b4-a262-43ca-84c6-6f9c0f9cbe4e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/ShopsList/ShopsList.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ShopsList/ShopsList.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/logo_ph.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ShopDetails/ShopDetails.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ShopDetails/ShopDetails.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ShopItem/ShopItem.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ShopItem/ShopItem.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/truncate.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ShopsList/ShopsList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ShopsList/ShopsList.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ShopsList/ShopsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ShopsList/ShopsList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +56,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets" />
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -74,7 +84,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1659440013734</updated>
-      <workItem from="1659440016257" duration="7405000" />
+      <workItem from="1659440016257" duration="14482000" />
     </task>
     <servers />
   </component>
