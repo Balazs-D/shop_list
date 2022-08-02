@@ -16,6 +16,12 @@
     padding: .5rem
 }
 
+@media only screen and (max-width: 750px) {
+    .Details__block {
+        width: 80%;
+    }
+}
+
 .Details_desc {
     font-weight: 500;
 }
@@ -38,4 +44,10 @@
     align-items: flex-start;
     width: 50%;
     text-align: left;
+}
+
+@media only screen and (max-width: 750px) {
+    .Details__actions {
+        width: 80%;
+    }
 }

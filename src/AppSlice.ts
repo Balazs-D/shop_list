@@ -67,9 +67,8 @@ export const getToken = () => async (dispatch: AppDispatch) => {
       },
     });
     dispatch(setToken(res.data.access_token));
-    // console.log(res);
   } catch {
-    toast.error("Token could not be load...");
+    toast.error("Token could not be loaded...");
   }
 };
 
@@ -85,7 +84,7 @@ export const getShopList =
       });
       dispatch(setShopsData(res.data));
     } catch {
-      toast.error("Shops could not be load...");
+      toast.error("Shops could not be loaded...");
     }
   };
 
@@ -100,10 +99,9 @@ export const getShopDetails =
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
       dispatch(setShop(res.data));
     } catch (err) {
       console.log(err);
-      toast.error("Shop details could not be load...");
+      toast.error("Shop details could not be loaded...");
     }
   };

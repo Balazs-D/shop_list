@@ -6,3 +6,22 @@
 
 }
 
+@media only screen and (max-width: 750px) {
+  .ShopList {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .ShopList {
+    grid-template-columns: auto;
+  }
+}
+
+.ShopList__loader {
+  width: 100vw;
+  height: 80vh;
+  display: grid;
+  place-items: center;
+
+}
