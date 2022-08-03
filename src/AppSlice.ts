@@ -20,14 +20,19 @@ export type ShopsData = {
 export interface AppState {
   isLoading: boolean;
   bearerToken: string;
-  shops: ShopsData | null;
+  shops: ShopsData;
   shop: ShopType | null;
 }
 
 const initialState: AppState = {
   isLoading: false,
   bearerToken: "",
-  shops: null,
+  shops: {
+    currentPage: 1,
+    numberOfPages: 1,
+    numberOfResults: 0,
+    items: [],
+  },
   shop: null,
 };
 
@@ -58,6 +63,7 @@ export const { setToken, setShopsData, resetShop, setShop, setLoading } =
 
 export const getToken = () => async (dispatch: AppDispatch) => {
   dispatch(setLoading(true));
+
   const data = {
     client_id: "bewerber",
     client_secret: "hj52Ws4kF",
@@ -72,7 +78,7 @@ export const getToken = () => async (dispatch: AppDispatch) => {
       },
     });
     dispatch(setToken(res.data.access_token));
-  } catch {
+  } catch (err) {
     toast.error("Authorization Fehler...");
   } finally {
     dispatch(setLoading(false));
@@ -82,7 +88,6 @@ export const getToken = () => async (dispatch: AppDispatch) => {
 export const getShopList =
   (token: string) => async (dispatch: Dispatch<any>) => {
     dispatch(setLoading(true));
-
     try {
       const res = await axios.get(baseUrlShops, {
         headers: {
@@ -92,7 +97,9 @@ export const getShopList =
         },
       });
       dispatch(setShopsData(res.data));
-    } catch {
+    } catch (err) {
+      dispatch(setShopsData(initialState.shops));
+
       toast.error("Shops konnten nicht geladen werden...");
     } finally {
       dispatch(setLoading(false));
