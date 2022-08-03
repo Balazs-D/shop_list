@@ -23,6 +23,7 @@ You will also see any lint errors in the console.
 ## Notes for improvements
 
 - Styling and layout improvements
+- Theming and SCSS instead of css
 - Chart for cashback rates
 - More detailed error messages based on the error code
 
