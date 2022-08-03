@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { getShopDetails, getToken, resetShop } from "../../AppSlice";
+import { getShopDetails, resetShop } from "../../AppSlice";
 import { truncateText } from "../../utils/truncate";
 import "./ShopDetails.css";
 import IMG_PLACEHOLDER from "../../assets/logo_ph.png";
@@ -11,7 +11,6 @@ import { Loader } from "../Loader/Loader";
 export const ShopDetails = () => {
   const { id } = useParams();
   const dispatch: AppDispatch = useDispatch();
-  const token = useSelector((state: RootState) => state.app.bearerToken);
   const shop = useSelector((state: RootState) => state.app.shop);
   const isLoading = useSelector((state: RootState) => state.app.isLoading);
 
@@ -19,18 +18,14 @@ export const ShopDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getToken());
+    if (id) {
+      dispatch(getShopDetails(id));
+    }
 
     return () => {
       dispatch(resetShop());
     };
-  }, []);
-
-  useEffect(() => {
-    if (id && token) {
-      dispatch(getShopDetails(token, id));
-    }
-  }, [token]);
+  }, [id]);
 
   if (isLoading || !id || !shop) {
     return <Loader />;

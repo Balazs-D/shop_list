@@ -19,14 +19,12 @@ export type ShopsData = {
 
 export interface AppState {
   isLoading: boolean;
-  bearerToken: string;
   shops: ShopsData;
   shop: ShopType | null;
 }
 
 const initialState: AppState = {
   isLoading: false,
-  bearerToken: "",
   shops: {
     currentPage: 1,
     numberOfPages: 1,
@@ -40,9 +38,6 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setToken: (state: AppState, action: PayloadAction<string>) => {
-      state.bearerToken = action.payload;
-    },
     setShopsData: (state: AppState, action: PayloadAction<ShopsData>) => {
       state.shops = action.payload;
     },
@@ -58,7 +53,7 @@ export const appSlice = createSlice({
   },
 });
 
-export const { setToken, setShopsData, resetShop, setShop, setLoading } =
+export const { setShopsData, resetShop, setShop, setLoading } =
   appSlice.actions;
 
 export const getToken = () => async (dispatch: AppDispatch) => {
@@ -77,7 +72,9 @@ export const getToken = () => async (dispatch: AppDispatch) => {
         "X-API-KEY": X_API_KEY,
       },
     });
-    dispatch(setToken(res.data.access_token));
+    // dispatch(setToken(res.data.access_token));
+
+    localStorage.setItem("token", res.data.access_token);
   } catch (err) {
     toast.error("Authorization Fehler...");
   } finally {
@@ -85,30 +82,33 @@ export const getToken = () => async (dispatch: AppDispatch) => {
   }
 };
 
-export const getShopList =
-  (token: string) => async (dispatch: Dispatch<any>) => {
-    dispatch(setLoading(true));
-    try {
-      const res = await axios.get(baseUrlShops, {
-        headers: {
-          "Content-type": "application/json",
-          "X-API-KEY": X_API_KEY,
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      dispatch(setShopsData(res.data));
-    } catch (err) {
-      dispatch(setShopsData(initialState.shops));
+export const getShopList = () => async (dispatch: Dispatch<any>) => {
+  dispatch(setLoading(true));
+  const token = localStorage.getItem("token");
 
-      toast.error("Shops konnten nicht geladen werden...");
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
+  try {
+    const res = await axios.get(baseUrlShops, {
+      headers: {
+        "Content-type": "application/json",
+        "X-API-KEY": X_API_KEY,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(setShopsData(res.data));
+  } catch (err) {
+    dispatch(setShopsData(initialState.shops));
+
+    toast.error("Shops konnten nicht geladen werden...");
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
 
 export const getShopDetails =
-  (token: string, id: string) => async (dispatch: Dispatch<any>) => {
+  (id: string) => async (dispatch: Dispatch<any>) => {
     dispatch(setLoading(true));
+    const token = localStorage.getItem("token");
+
     try {
       const res = await axios.get(baseUrlShops + "/" + id, {
         headers: {
